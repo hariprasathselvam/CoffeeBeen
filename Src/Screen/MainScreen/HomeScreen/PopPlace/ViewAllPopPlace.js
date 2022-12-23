@@ -119,6 +119,7 @@ const isExist = (movie) => {
             fontSize: fontSizes.FONT20,
             color: COLOURS.Secondary,
             fontFamily: 'Merienda-Bold',
+            
           }}>
           PopularPlace
         </Text>
