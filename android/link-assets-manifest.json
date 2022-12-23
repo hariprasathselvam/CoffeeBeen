@@ -1,0 +1,25 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "Src/Assets/Fonts/Bangers-Regular.ttf",
+      "sha1": "9c81590199c778e14e4a7b0e9a7543288779a7ba"
+    },
+    {
+      "path": "Src/Assets/Fonts/Courgette-Regular.ttf",
+      "sha1": "0e6826b92f8f80fe2eb803bdef7d81355845e283"
+    },
+    {
+      "path": "Src/Assets/Fonts/Merienda-Bold.ttf",
+      "sha1": "ef31c7c8bf7a3817dd1b3d5e0ca0ec1ba5ceba1f"
+    },
+    {
+      "path": "Src/Assets/Fonts/Merienda-Regular.ttf",
+      "sha1": "69f1b584e429f9085c01666287a1a7a0efbfd960"
+    },
+    {
+      "path": "Src/Assets/Fonts/Staatliches-Regular.ttf",
+      "sha1": "e81d9f0c3109b0e7e84ccb5d35ee66f630f4dfd8"
+    }
+  ]
+}
