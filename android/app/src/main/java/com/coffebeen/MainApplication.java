@@ -13,6 +13,7 @@ import com.coffebeen.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.razorpay.rn.RazorpayPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -28,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          packages.add(new LottiePackage());
+          // packages.add(new LottiePackage());
+          // packages.add(new RazorpayPackage());
           return packages;
         }
 
@@ -63,8 +65,6 @@ public class MainApplication extends Application implements ReactApplication {
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
    * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
    *
-   * @param context
-   * @param reactInstanceManager
    */
   private static void initializeFlipper(
       Context context, ReactInstanceManager reactInstanceManager) {

@@ -1,15 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  PermissionsAndroid,
-  TouchableOpacity,
-  Modal,
-  Pressable,
-  Alert,
-} from 'react-native';
+import {StyleSheet,Text,View,Image,ScrollView,PermissionsAndroid,TouchableOpacity,Modal,Pressable,Alert,} from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import {Images} from '../../../Assets/Images/Images';
 import Categories from '../../../Components/Categories';
@@ -18,6 +7,7 @@ import {fontSizes, moderateScale} from '../../../constants/appConstant';
 import COLOURS from '../../../Style/Colours';
 import {AuthContext} from '../../../Navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
+import PrivacyAndPolicyIndex from './PrivacyAndPolicy/PrivacyAndPolicyIndex';
 export default function ProfileScreenIndex({navigation, route}) {
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
@@ -104,7 +94,7 @@ export default function ProfileScreenIndex({navigation, route}) {
             image={Images.privacypolicy}
             head={String.privacypolicy}
             subhead={String.privacypolicySub}
-            onPress={() => navigation.navigate('OptionBoz')}
+            onPress={() => navigation.navigate('PrivacyAndPolicyIndex')}
           />
         </View>
       </ScrollView>

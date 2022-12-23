@@ -12,7 +12,7 @@ export default function OptionBoz() {
     <View style={styles.Container}>
       <View style={styles.Box}>
         <View style={styles.Box1}>
-          <Text style={{fontSize:fontSizes.FONT14,color:COLOURS.LightGray}}>CoffeeBeen</Text>
+          <Text style={{fontSize:fontSizes.FONT15,color:COLOURS.LightGray,opacity:0.7}}>Your card balance</Text>
           <Text style={{fontSize:fontSizes.FONT16,color:COLOURS.Black}}>$245</Text>
         </View>
         <View style={styles.Box2}>

@@ -28,8 +28,8 @@ export default function PopularPlace(Props) {
 
 const styles = StyleSheet.create({
     PopPlace:{
-        bottom:"35%",
         paddingHorizontal:moderateScale(20),
+        paddingBottom:"10%"
       },
     Pop_PlaceBox:{
       marginTop:"5%",

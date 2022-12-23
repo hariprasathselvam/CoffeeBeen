@@ -34,19 +34,17 @@ const DeleteTheAccount = () => {
   return (
     <View style={styles.Maincontainer}>
       <View style={styles.Container}>
-        <Image source={Images.man} style={styles.Image}/>
-        <Text style={styles.Text}>
-          Hari Prasath
-        </Text>
-        <Text style={styles.City}>Chennai</Text>
+        <View style={styles.Minicontainer}>
+          <Image source={Images.man} style={styles.Image} />
+          <Text style={styles.Text}>Hari Prasath</Text>
+          <Text style={styles.City}>Chennai</Text>
+        </View>
         <View style={styles.Buttons}>
-        <Buttons onpress={() => logout()}
-        text={"Logout"}
-        />
+          <Buttons onpress={() => logout()} text={'Logout'} />
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 export default DeleteTheAccount
@@ -57,7 +55,11 @@ const styles = StyleSheet.create({
     backgroundColor:COLOURS.Primary
   },
   Container:{
-    backgroundColor:COLOURS.Primary
+    backgroundColor:COLOURS.Primary,
+    flex:1
+  },
+  Minicontainer:{
+    flex:1,
   },
   Image:{
     marginTop:"20%",
@@ -79,6 +81,6 @@ const styles = StyleSheet.create({
     fontSize:fontSizes.FONT15
   },
   Buttons:{
-    marginTop:"95%"
+    marginBottom:"10%"
   }
 })

@@ -11,6 +11,7 @@ import OptionBoz from './OptionBoz'
 import Myreward from './Myreward/Myreward'
 import FavoritePlace from './FavoPlace/FavoritePlace'
 import PopularPlace from './PopPlace/PopularPlace'
+import CoffeeScreenIndex from '../CoffeeScreen/CoffeeScreenIndex'
 export default function HomeScreenIndex({navigation}) {
 
   return (

@@ -52,4 +52,10 @@ export const Images ={
     heart:require('./heart.png'),
     heartfill:require('./heartfill.png'),
     threeArrow:require('./three-arrows.png'),
+    NotYet:require('./NotYet.png'),
+    search:require('./search.png'),
+    clear:require('./clear.png'),
+    Bar:require('./Bar.png'),
+    BestPrice:require('./bestprice.png'),
+    cafe:require('./cafe.png'),
 }

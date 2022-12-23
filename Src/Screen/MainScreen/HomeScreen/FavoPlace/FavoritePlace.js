@@ -6,6 +6,7 @@ import { fontSizes, moderateScale} from '../../../../constants/appConstant'
 import { Images } from '../../../../Assets/Images/Images'
 import FavoPlaceFlatList from './FavoPlaceFlatList'
 import { useNavigation } from '@react-navigation/native'
+import CoffeeScreenIndex from '../../CoffeeScreen/CoffeeScreenIndex'
 export default function FavoritePlace() {
 
     const navigation =useNavigation();
@@ -21,6 +22,7 @@ export default function FavoritePlace() {
                 </View>
 
                 <FavoPlaceFlatList/>
+                {/* <CoffeeScreenIndex/> */}
 
             </View>
         </View>

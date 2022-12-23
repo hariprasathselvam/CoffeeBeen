@@ -13,7 +13,7 @@ const persistConfig = {
 
 
 const rootReducer = combineReducers({
-    movieReducer: persistReducer(persistConfig, reducer)
+    CoffeeReducer: persistReducer(persistConfig, reducer)
 })
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

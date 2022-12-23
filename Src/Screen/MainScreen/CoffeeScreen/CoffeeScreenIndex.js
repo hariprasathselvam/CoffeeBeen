@@ -1,190 +1,207 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, FlatList, Image } from 'react-native';
 
-import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../../../redux/actions'
-import { BASE_URL } from '../../../utilities/index';
+import { StyleSheet, Text, View, FlatList,TouchableOpacity,Image} from 'react-native'
+import React,{useState,useEffect} from 'react'
+import COLOURS from '../../../Style/Colours'
+import { moderateScale,fontSizes} from '../../../constants/appConstant'
+import SearchBar from "react-native-dynamic-search-bar"
+import { Images } from '../../../Assets/Images/Images'
+import { useNavigation } from '@react-navigation/native';
 
+import { connect, useSelector } from 'react-redux'
+import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../redux/actions'
 
-const _HomeScreen = (prop,{navigation}) => {
+const CoffeeScreenIndex = props => {
+  const {addToWishList, removeFromWishlist} = props;
+  const {Coffees, wishlist} = useSelector(state => state.CoffeeReducer);
 
-    const { movieReducer, fetchMovies, addToWishList, removeFromWishlist } = prop;
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState(Coffees);
+  const [masterDataSource, setMasterDataSource] = useState([Coffees]);
 
-    const { movies, wishlist } = movieReducer;
+  useEffect(() => {
+    setFilteredDataSource(Coffees);
+    setMasterDataSource(Coffees);
+  }, []);
 
-    // const [currentMovie, setCurrentMovie] = useState(undefined);
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
 
+  const navigation = useNavigation();
 
-    useEffect(() => {
-        fetchMovies()
-    }, []);
+  const onTapAddToWishlist = movie => {
+    addToWishList(movie);
+  };
 
-    // useEffect(() => {
+  const onTapRemoveFromWishlist = movie => {
+    removeFromWishlist(movie);
+  };
 
-    //     if(movies.length > 0){
-    //         setCurrentMovie(movies[0])
-    //     }
-
-    // }, [movies])
- 
-
-
-    const didTapCurrentMovie = (movie) => {
-        setCurrentMovie(movie)
+  const isExist = movie => {
+    if (wishlist.filter(item => item.id === movie.id).length > 0) {
+      return true;
     }
 
-    const onTapAddToWishlist = (movie) => {
+    return false;
+  };
 
-        addToWishList(movie)
-    }
+  const Item = ({Data}) => (
+    <View
+      style={{marginTop: '5%', padding: moderateScale(5), borderRadius: 20}}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('DetialsScreenindex', Data)}>
+        <View style={{flexDirection: 'row'}}>
+          <Image
+            style={{height: 150, width: 125, borderRadius: 25}}
+            source={{uri: Data.Picture}}
+          />
 
-    const onTapRemoveFromWishlist = (movie) => {
-        removeFromWishlist(movie)
-
-    }
-
-
-    const isExist = (movie) => {
-        
-        if(wishlist.filter(item => item.id === movie.id).length > 0){
-            return true
-        }
-
-        return false
-    }
-
-
-
-    return <View style={styles.container}>
-        <View style={styles.listView}>
-
-            <Text style={{ fontSize: 30, fontWeight: '600', color: 'gray', marginLeft: 20,
-        marginBottom: 20 }}>
-                Top Movies
+          <View style={{left: '10%'}}>
+            <View style={{alignSelf: 'flex-end'}}>
+              {isExist(Data) ? (
+                <TouchableOpacity onPress={() => onTapRemoveFromWishlist(Data)}>
+                  <Image
+                    source={Images.heartfill}
+                    style={{
+                      height: moderateScale(20),
+                      width: moderateScale(20),
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => onTapAddToWishlist(Data)}>
+                  <Image
+                    source={Images.heart}
+                    style={{
+                      height: moderateScale(20),
+                      width: moderateScale(20),
+                    }}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+            <Text
+              style={{
+                fontSize: 20,
+                color: 'black',
+                fontWeight: '500',
+                bottom: '5%',
+              }}>
+              {Data.name}
             </Text>
-
-            <TouchableOpacity onPress={()=> navigation.navigate("")}>
-                <Text>Hari</Text>
-            </TouchableOpacity>
-
-            <FlatList
-                horizontal = {true}
-                showsHorizontalScrollIndicator={false}
-                data={movies}
-                renderItem={({ item }) => (
-                     <View style={styles.movieCard}>
-                        <Text style={{ textAlign: 'center', padding: 20}}> { item.name} </Text>
-                        {isExist(item) ? 
-                        <TouchableOpacity style={{                     
-                            backgroundColor: '#208103',
-                            width: '100%',
-                            height: 44,
-                            borderBottomLeftRadius: 20,
-                            borderBottomRightRadius: 20,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-
-                            }} 
-                            onPress={() => onTapRemoveFromWishlist(item)}
-                            >
-
-                            <Text style={{ color: '#FFF', fontSize: 12, fontWeight: '600' }} > Remove from Wishlist</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={{                     
-                            backgroundColor: '#D92F24',
-                            width: '100%',
-                            height: 44,
-                            borderBottomLeftRadius: 20,
-                            borderBottomRightRadius: 20,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-
-                            }} 
-                            onPress={() => onTapAddToWishlist(item)}
-                            >
-
-                            <Text style={{ color: '#FFF', fontSize: 12, fontWeight: '600' }} > Add to Wishlist</Text>
-                        </TouchableOpacity>
-                        }
-
-                    </View>
-
-                )}
-
-            
-                keyExtractor={(item) => item.id}
-            />
-
-
+            <View style={{flexDirection: 'row'}}>
+              <Image source={Images.rating} style={{height: 30, width: 80}} />
+              <Text style={{fontSize: 19, left: '50%', color: 'gray'}}>
+                {Data.Rating}
+              </Text>
+            </View>
+            <View style={{top: '5%'}}>
+              <Text style={{fontSize: 16, color: 'gray', opacity: 0.5}}>
+                {Data.location}
+              </Text>
+            </View>
+          </View>
         </View>
-
-
+      </TouchableOpacity>
     </View>
-}
+  );
 
+  const renderItem = ({item}) => <Item Data={item} />;
 
-const mapStateToProps = (state) => ({
-    movieReducer: state.movieReducer
-})
+  return (
+    <View style={styles.Container}>
+      <View style={styles.Header}>
+        <Text style={styles.HeadText1}>Find Your Best Cafe</Text>
+        <Text style={styles.HeadText2}>
+          Enjoy the love of the best coffee taste
+        </Text>
+      </View>
+      <View>
+        <SearchBar
+          style={styles.Searchbar}
+          fontSize={14}
+          placeholder="Search Caffee"
+          textInputStyle={styles.TextInput}
+          searchIconImageStyle={styles.SearchIcon}
+          searchIconImageSource={Images.search}
+          clearIconImageSource={Images.clear}
+          clearIconImageStyle={styles.SearchIcon}
+          onChangeText={text => searchFilterFunction(text)}
+          value={search}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          width: '90%',
+          marginHorizontal: moderateScale(20),
+          paddingBottom: moderateScale(70),
+        }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={filteredDataSource}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
+    </View>
+  );
+};
 
-const CoffeeScreenIndex = connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist })(_HomeScreen)
+const mapStateToProps = state => ({
+  CoffeeReducer: state.CoffeeReducer,
+});
 
-export default CoffeeScreenIndex;
+export default connect(mapStateToProps, {
+  fetchCoffee,
+  addToWishList,
+  removeFromWishlist,
+})(CoffeeScreenIndex);
 
 const styles = StyleSheet.create({
-
-    container: {
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#E5E5E5'
-    },
-    posterView: {
-        display: 'flex',
-        width: Dimensions.get('screen').width,
-        flex: 7,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    listView: {
-         width: Dimensions.get('screen').width,
-        flex: 5,
-        padding: 10
-
-    },
-    poster: {
-        display: 'flex',
-        width: Dimensions.get('screen').width,
-        height: '100%',
-        justifyContent: 'flex-end',
-        flexDirection: 'column'
-    },
-    movieCard: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: Dimensions.get('screen').width / 2.5 - 10,
-        backgroundColor: '#FFF',
-        borderRadius: 20,
-        height: '80%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginLeft: 10
-    }
-
-
-})
-
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// export default function CoffeeScreenIndex() {
-//   return (
-//     <View>
-//       <Text>CoffeeScreenIndex</Text>
-//     </View>
-//   )
-// }
-
-// const styles = StyleSheet.create({})
+  Container: {
+    flex: 1,
+    backgroundColor: COLOURS.Primary,
+  },
+  Header: {
+    marginHorizontal: moderateScale(20),
+    marginTop: '5%',
+  },
+  HeadText1: {
+    color: COLOURS.Secondary,
+    fontSize: fontSizes.FONT20,
+    fontFamily: 'Merienda-Bold',
+  },
+  HeadText2: {
+    color: COLOURS.LightGray,
+    fontSize: fontSizes.FONT12,
+    opacity: 0.5,
+  },
+  Searchbar: {
+    marginTop: '5%',
+    backgroundColor: 'rgba(52, 52, 52, 0.1)',
+    borderRadius: 10,
+    height: moderateScale(45),
+  },
+  SearchIcon: {
+    height: moderateScale(22),
+    width: moderateScale(22),
+  },
+  TextInput: {
+    fontSize: fontSizes.FONT16,
+    color: COLOURS.LightGray,
+    opacity: 0.5,
+    fontFamily: 'Merienda-Bold',
+  },
+});

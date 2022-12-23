@@ -8,117 +8,72 @@ import Categories from '../../../../Components/Categories';
 import {ScrollView} from 'react-native-virtualized-view';
 import LikeButton from '../../../../Components/LikeButton';
 
-import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../.././../../redux/actions'
-import { BASE_URL } from '../../../../utilities/index';
+import { connect, useSelector } from 'react-redux'
+import {addToWishList, removeFromWishlist} from '../../../../redux/actions'
 
 
-const DetialsScreenindex = ({navigation, route}) => {
-
-    // const { movieReducer, fetchMovies, addToWishList, removeFromWishlist } = props;
-
-    // const { movies, wishlist } = movieReducer;
-
-    // const [currentMovie, setCurrentMovie] = useState(undefined);
-
-
-    // useEffect(() => {
-    //     fetchMovies()
-    // }, []);
-
-    // useEffect(() => {
-
-    //     if(movies.length > 0){
-    //         setCurrentMovie(movies[0])
-    //     }
-
-    // }, [movies])
- 
-
-
-    const didTapCurrentMovie = (movie) => {
-        setCurrentMovie(movie)
-    }
-
-    const onTapAddToWishlist = (movie) => {
-
-        addToWishList(movie)
-    }
-
-    const onTapRemoveFromWishlist = (movie) => {
-        removeFromWishlist(movie)
-
-    }
-
-        const isExist = (movie) => {
-        
-        if(wishlist.filter(item => item._id === movie._id).length > 0){
-            return true
-        }
-
-        return false
-    }
+const DetialsScreenindex = ({navigation, route,}) => {
 
   const Data = route.params
+  // console.log(Data);
+
+  // const {addToWishList, removeFromWishlist } = route.params
+  
+  // const {wishlist} = CoffeeReducer
+  const {wishlist} = useSelector((state) => state.CoffeeReducer)
+
+  const onTapAddToWishlist = (movie) => {
+    // console.log("========.......................>",movie)
+    addToWishList(movie)
+    alert("Hari")
+}
+
+const onTapRemoveFromWishlist = (movie) => {
+  console.log("========.......................>",movie)
+    removeFromWishlist(movie)
+
+}
+
+
+const isExist = (movie) => {
+    
+    if(wishlist.filter(item => item.id === movie.id).length > 0){
+        return true
+    }
+
+    return false
+}
+
+
+
+  
 
   const PRICE = Data.CoffeeAndPrice
 
   const REVIEW = Data.Review
 
-  // const animation = React.useRef(null);
-  // const isFirstRun = React.useRef(true);
 
+  const [Focus, setFocus] = useState(true)
+  const [colour, setColour] = useState(COLOURS.Secondary)
+  const [colour1, setColour1] = useState(COLOURS.LightGray)
 
+  const [more, setReadMore] = useState(false)
 
+  const [liked, setLiked] = useState(false)
 
-
-  // console.log(PRICE);
-
-  // React.useEffect(() => {
-  //   if (isFirstRun.current) {
-  //     if (isLiked) {
-  //       animation.current.play(66, 66);
-  //     } else {
-  //       animation.current.play(19, 19);
-  //     }
-  //     isFirstRun.current = false;
-  //   } else if (isLiked) {
-  //     animation.current.play(19, 50);
-  //   } else {
-  //     animation.current.play(0, 19);
-  //   }
-  // }, [isLiked]);
-
-  const [Focus, setFocus] = useState(true);
-  const [colour, setColour] = useState(COLOURS.Secondary);
-  const [colour1, setColour1] = useState(COLOURS.LightGray);
-
-  const [cart,setCart] = useState([]);
+  const [cart,setCart] = useState([])
 
   const DetialsList = () => {
-    setFocus(true);
-    setColour1(COLOURS.LightGray);
-    setColour(COLOURS.Secondary);
+    setFocus(true)
+    setColour1(COLOURS.LightGray)
+    setColour(COLOURS.Secondary)
   };
   const CoffeeList = () => {
-    setFocus(false);
-    setColour1(COLOURS.Secondary);
-    setColour(COLOURS.LightGray);
+    setFocus(false)
+    setColour1(COLOURS.Secondary)
+    setColour(COLOURS.LightGray)
   };
 
-
-
-  // const [selected, setSelected] = React.useState(new Map());
-
-  // const onSelect = React.useCallback(
-  //   id => {
-  //     const newSelected = new Map(selected);
-  //     newSelected.set(id, !selected.get(id));
-
-  //     setSelected(newSelected);
-  //   },
-  //   [selected],
-  // );
 
   const Item = ({id, title, selected, onSelect, prices}) => (
     <View style={{padding: moderateScale(5), borderRadius: 20}}>
@@ -137,16 +92,14 @@ const DetialsScreenindex = ({navigation, route}) => {
       </TouchableOpacity>
     </View>
   );
-  const [more, setReadMore] = useState(false);
 
-  const [liked, setLiked] = useState(false)
 
   const ReviewItem = ({Data}) => (
     <View style={{paddingHorizontal: 20, marginTop: '5%'}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Image
-            source={Data.userprofile}
+            source={Data.reviewPic}
             style={{height: 50, width: 50, borderRadius: 50}}
           />
         </View>
@@ -192,8 +145,6 @@ const DetialsScreenindex = ({navigation, route}) => {
     </View>
   );
 
-  // const renderItem = ({item}) => <Item Data={item} />;
-
   const renderReviewItem = ({item}) => (
     <ReviewItem
       Data={item}
@@ -207,7 +158,21 @@ const DetialsScreenindex = ({navigation, route}) => {
           <Image source={Images.Back} style={styles.Back} />
         </TouchableOpacity>
         <Text style={styles.HeaderText}>DETIAL PLACE</Text>
-        <View>
+        <View style={{}}>
+              {isExist(Data) ? (
+                <TouchableOpacity onPress={() => onTapRemoveFromWishlist(Data)}>
+                  <Image source={Images.heartfill} style={{height:moderateScale(20),width:moderateScale(20)}}/>
+                </TouchableOpacity>
+              ) : (
+                // onPress={() => onTapRemoveFromWishlist(Data)}
+                <TouchableOpacity
+                  // onPress={() => onTapAddToWishlist(Data)}
+                  onPress={() => onTapAddToWishlist(Data)}>
+                  <Image source={Images.heart} style={{height:moderateScale(20),width:moderateScale(20)}}/>
+                </TouchableOpacity>
+              )}
+            </View>
+        {/* <View>
           <LikeButton 
           onPress={() => {
             if (liked) {
@@ -219,7 +184,7 @@ const DetialsScreenindex = ({navigation, route}) => {
             }
           }}
           />
-        </View>
+        </View> */}
         
       </View>
       <Image style={styles.Picture} source={{uri:Data.Picture}} />
@@ -344,7 +309,7 @@ const DetialsScreenindex = ({navigation, route}) => {
             {PRICE.map((item) => (
               <View
                 key={item.id}
-                style={{margin:10}}
+                style={{marginTop:moderateScale(15),marginHorizontal:moderateScale(10)}}
               >
                   {cart.includes(item) ? (
                     <TouchableOpacity
@@ -354,7 +319,7 @@ const DetialsScreenindex = ({navigation, route}) => {
                     <Categories
                     onPress={() => setCart(cart.filter((x) => x.id !== item.id))}
                     head={item.title}
-                    subhead={item.prices}
+                    subhead={"₹ "+item.Prices}
                     image={Images.Coffee}
                     />
                     <Text style={{fontSize:0}}>{item.quantity}</Text>
@@ -367,7 +332,7 @@ const DetialsScreenindex = ({navigation, route}) => {
                     <Categories 
                     onPress={() => setCart([...cart,item])}
                     head={item.title}
-                    subhead={item.prices}
+                    subhead={"₹ "+item.Prices}
                     image={Images.Coffee}
                     />
                     <Text style={{fontSize:1}}>{item.quantity}</Text>
@@ -380,7 +345,7 @@ const DetialsScreenindex = ({navigation, route}) => {
           <View
             style={{
               paddingHorizontal: moderateScale(20),
-              height: 60,
+              height: moderateScale(65),
               alignSelf:"flex-end",
               justifyContent:"center"
             }}>
@@ -388,10 +353,10 @@ const DetialsScreenindex = ({navigation, route}) => {
               <Text
                 style={{
                   backgroundColor: COLOURS.Secondary,
-                  padding: 10,
+                  padding: moderateScale(10),
                   borderRadius: 15,
                   color: COLOURS.Primary,
-                  fontSize: 18,
+                  fontSize: fontSizes.FONT18,
                   fontWeight:"500"
                 }}>
                 Order Now

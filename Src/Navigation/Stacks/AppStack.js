@@ -15,8 +15,9 @@ import ViewAllMyreward from "../../Screen/MainScreen/HomeScreen/Myreward/ViewAll
 import ViewAllFavoPlace from "../../Screen/MainScreen/HomeScreen/FavoPlace/ViewAllFavoPlace";
 import DetialsScreenindex from "../../Screen/MainScreen/HomeScreen/DetialsScreens/DetialsScreenindex";
 import PaymentIndex from "../../Screen/MainScreen/ProfileScreen/Payment/PaymentIndex";
-import PaymentCardDetials from "../../Screen/MainScreen/ProfileScreen/Payment/PaymentCardDetials";
+import NewCardDetials from "../../Screen/MainScreen/ProfileScreen/Payment/NewCardDetials";
 import OrderIndex from "../../Screen/MainScreen/HomeScreen/Order/OrderIndex";
+import RazorPay from "../../Screen/MainScreen/HomeScreen/Order/RazorPay";
 const stacks=createNativeStackNavigator();
 export default function AppStack() {
   return (
@@ -37,8 +38,9 @@ export default function AppStack() {
         <stacks.Screen name="ViewAllFavoPlace" component={ViewAllFavoPlace} />
         <stacks.Screen name="DetialsScreenindex" component={DetialsScreenindex} />
         <stacks.Screen name="PaymentIndex" component={PaymentIndex} />
-        <stacks.Screen name="PaymentCardDetials" component={PaymentCardDetials} />
+        <stacks.Screen name="NewCardDetials" component={NewCardDetials} />
         <stacks.Screen name="OrderIndex" component={OrderIndex} />
+        <stacks.Screen name="RazorPay" component={RazorPay} />
       </stacks.Navigator>
   )
 }

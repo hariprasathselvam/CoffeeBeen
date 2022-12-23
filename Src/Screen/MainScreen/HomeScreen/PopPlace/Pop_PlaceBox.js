@@ -1,12 +1,12 @@
 import { Image, StyleSheet, Text, View,FlatList, TouchableOpacity, ScrollView } from 'react-native'
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Images } from '../../../../Assets/Images/Images'
 import CoffeeShop from '../../../../Assets/StaticData/CoffeeShopsData';
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import CoffeeScreenIndex from '../../CoffeeScreen/CoffeeScreenIndex';
 
 import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../../../../redux/actions'
+import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
 
 
 const  Pop_PlaceBox = (props) => {
@@ -14,12 +14,16 @@ const  Pop_PlaceBox = (props) => {
   const navigation =useNavigation()
 
   
-  const { movieReducer, fetchMovies, addToWishList, removeFromWishlist } = props
+  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props
 
-  const { movies, wishlist } = movieReducer
+  const { Coffees, wishlist } = CoffeeReducer
+
+  const [loading,setLoding]=useState(true)
 
   useEffect(() => {
-    fetchMovies()
+    setLoding(true)
+    fetchCoffee()
+    setLoding(false)
   }, []);
 
 
@@ -49,23 +53,26 @@ const  Pop_PlaceBox = (props) => {
   return (
     <View style={{}}>
       <ScrollView horizontal={true}>
-      <FlatList
-          data={movies.slice(0,1)} 
+        {loading ? ( <CoffeeScreenIndex />
+
+        ) : (
+          <FlatList
+          data={Coffees.slice(0, 1)}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
+          
+        )}
       </ScrollView>
-
-  </View>
-
-  )
+    </View>
+  );
 }
 
 
 const mapStateToProps = (state) => ({
-  movieReducer: state.movieReducer
+  CoffeeReducer: state.CoffeeReducer
 })
 
-export default connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist })(Pop_PlaceBox)
+export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(Pop_PlaceBox)
 
 const styles = StyleSheet.create({})

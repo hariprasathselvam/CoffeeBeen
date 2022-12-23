@@ -1,59 +1,83 @@
 import {Image,StyleSheet,Text,TouchableOpacity,View,FlatList,Button,LayoutAnimation,UIManager,Platform,} from 'react-native';
-import React, {useState, useRef} from 'react';
-import COLOURS from '../../../../Style/Colours';
-import {Images} from '../../../../Assets/Images/Images';
-import Categories from '../../../../Components/Categories';
-import {moderateScale, fontSizes} from '../../../../constants/appConstant';
-import {ScrollView} from 'react-native-virtualized-view';
-import BottamSheet from './BottamSheet';
+import React, {useState, useRef} from 'react'
+import COLOURS from '../../../../Style/Colours'
+import {Images} from '../../../../Assets/Images/Images'
+import Categories from '../../../../Components/Categories'
+import {moderateScale, fontSizes} from '../../../../constants/appConstant'
+import {ScrollView} from 'react-native-virtualized-view'
+import BottamSheet from './BottamSheet'
+import RazorpayCheckout from 'react-native-razorpay';
 export default function OrderIndex({route, navigation}) {
-  const refRBSheet = useRef();
+  const refRBSheet = useRef()
   
   const Data = route.params.Coffees;
 
   const [product, setProduct] = useState(Data);
 
 
-  const removeItem = (Data, index) => {
-    let minus = finalPayment - product[index].prices;
-    let minustotal = totalpayment - product[index].prices;
-    let arr = product.filter(function (item) {
-      console.log("===>"+item.id)
-      console.log("=++++==>"+Data.id);
-      return item.id !== Data.id;
-    });
-    setProduct(arr);
+  // const removeItem = (Data, index) => {
+  //   let minus = finalPayment - product[index].prices;
+  //   let minustotal = totalpayment - product[index].prices;
+  //   let arr = product.filter(function (item) {
+  //     console.log("===>"+item.id)
+  //     console.log("=++++==>"+Data.id);
+  //     return item.id !== Data.id;
+  //   });
+  //   setProduct(arr);
 
-    setFinalpayment(minus);
-    setMypayment(minus);
+  //   setFinalpayment(minus);
+  //   setMypayment(minus);
 
-    setTotals(minustotal);
-    setTotalpayment(minustotal);
+  //   setTotals(minustotal);
+  //   setTotalpayment(minustotal);
     
-    if (minus <= 1) {
-      setMypayment(0);
+  //   if (minus <= 1) {
+  //     setMypayment(0);
+  //   }
+  //   console.log(minus);
+  //   LayoutAnimation.configureNext(layoutAnimConfig);
+  // };
+
+  // const layoutAnimConfig = {
+  //   duration: 300,
+  //   update: {
+  //     type: LayoutAnimation.Types.easeInEaseOut,
+  //   },
+  //   delete: {
+  //     duration: 100,
+  //     type: LayoutAnimation.Types.easeInEaseOut,
+  //     property: LayoutAnimation.Properties.opacity,
+  //   },
+  // };
+
+  // if (
+  //   Platform.OS === 'android' &&
+  //   UIManager.setLayoutAnimationEnabledExperimental
+  // ) {
+  //   UIManager.setLayoutAnimationEnabledExperimental(true);
+  // }
+
+  const makepayment = () => {
+    const RazorPay = totalPrice + 10 + 5 - 16
+    var options = {
+      description: 'Credits towards consultation',
+      image: 'https://i.imgur.com/3g7nmJC.png',
+      currency: 'INR',
+      key: 'rzp_test_gg7uD5c5ZXzXXe',
+      amount: RazorPay*100,
+      name: 'Coffee Been',
+      prefill: {
+        email: 'void@razorpay.com',
+        contact: '9191919191',
+        name: 'Razorpay Software'
+      },
+      theme: {color: COLOURS.LightGreen}
     }
-    console.log(minus);
-    LayoutAnimation.configureNext(layoutAnimConfig);
-  };
-
-  const layoutAnimConfig = {
-    duration: 300,
-    update: {
-      type: LayoutAnimation.Types.easeInEaseOut,
-    },
-    delete: {
-      duration: 100,
-      type: LayoutAnimation.Types.easeInEaseOut,
-      property: LayoutAnimation.Properties.opacity,
-    },
-  };
-
-  if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    RazorpayCheckout.open(options).then((data) => {
+      alert(`Success: ${data.razorpay_payment_id}`)
+    }).catch((error) => {
+      alert(`Error: ${error.code} | ${error.description}`)
+    })
   }
 
   const onSubtract = (item, index) => {
@@ -62,7 +86,7 @@ export default function OrderIndex({route, navigation}) {
       product[index].quantity -= 1;
       setProduct(data);
     }
-    console.log(item.prices);
+    console.log(item.Prices);
   };
 
   const onAdd = (item, index) => {
@@ -76,16 +100,18 @@ export default function OrderIndex({route, navigation}) {
 
   Data.forEach(item => {
     totalQuantity += item.quantity;
-    totalPrice += item.quantity * item.prices;
+    totalPrice += item.quantity * item.Prices;
   });
+
+  
 
   const [finalPayment, setFinalpayment] = useState(totalPrice + 10 + 5 - 16);
 
-  const [mypayment, setMypayment] = useState(finalPayment);
+  // const [mypayment, setMypayment] = useState(finalPayment);
 
   const [totalpayment, setTotalpayment] = useState(totalPrice);
   
-  const [totals, setTotals] = useState(totalpayment);
+  // const [totals, setTotals] = useState(totalpayment);
 
   const Item = ({item, Subtract, Add, remove}) => {
     return (
@@ -105,12 +131,12 @@ export default function OrderIndex({route, navigation}) {
         <View style={{justifyContent: 'space-between'}}>
           <Categories
             head={item.title}
-            subhead={item.prices}
+            subhead={"₹ "+item.Prices}
             image={Images.Coffee}
           />
         </View>
         <View style={{}}>
-          <TouchableOpacity onPress={remove}>
+          {/* <TouchableOpacity onPress={remove}>
             <Image
               source={Images.close}
               style={{
@@ -120,7 +146,7 @@ export default function OrderIndex({route, navigation}) {
                 bottom: '40%',
               }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity onPress={Subtract} style={{right: 20}}>
@@ -139,7 +165,7 @@ export default function OrderIndex({route, navigation}) {
   return (
     <View style={styles.MainContainer}>
       <View style={styles.Header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={Images.Back} style={styles.GoBack} />
         </TouchableOpacity>
 
@@ -180,7 +206,7 @@ export default function OrderIndex({route, navigation}) {
                 item={item}
                 Subtract={() => onSubtract(item, index)}
                 Add={() => onAdd(item, index)}
-                remove={() => removeItem(item, index)}
+                // remove={() => removeItem(item, index)}
               />
             )}
           />
@@ -221,9 +247,7 @@ export default function OrderIndex({route, navigation}) {
       <BottamSheet
         refRBSheet={refRBSheet}
         finalPayment={totalPrice}
-        onSwipeSuccess={() => {
-          alert('Hari');
-        }}
+        onSwipeSuccess={makepayment}
       />
     </View>
   );

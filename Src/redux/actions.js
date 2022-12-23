@@ -3,23 +3,23 @@ import { BASE_URL } from '../utilities'
 
 
 export const Action = {
-    GET_MOVIES : 'fetch_movies',
+    GET_COFFEE : 'fetch_Coffee',
     ADD_TO_WISHLIST: 'add_to_wishlist',
     REMOVE_FROM_WISHLIST: 'remove_from_wishlist',
     ON_ERROR: 'on_error'
 }
 
-export const fetchMovies = () => {
+export const fetchCoffee = () => {
 
     try{
         return async(dispatch) => {
 
              const response = await axios.get(`${BASE_URL}/`);
             
-             console.log(response);
+            //  console.log(response);
             if(response.data){
                 dispatch({
-                    type: Action.GET_MOVIES,
+                    type: Action.GET_COFFEE,
                     payload: response.data
                 })
     
@@ -27,7 +27,7 @@ export const fetchMovies = () => {
                 //throw error
                 dispatch({
                     type: Action.ON_ERROR,
-                    payload: 'Unable to fetch movies'
+                    payload: 'Unable to fetch Coffee Shop'
                 })
     
             }
@@ -38,7 +38,7 @@ export const fetchMovies = () => {
         //throw error
         dispatch({
             type: Action.ON_ERROR,
-            payload: 'Unable to fetch movies'
+            payload: 'Unable to fetch Coffee Shop'
         }) 
     }
 
@@ -47,7 +47,7 @@ export const fetchMovies = () => {
 
 
 export const addToWishList = (movie) => (dispatch) => {
-
+    console.log(movie)
     dispatch({
         type: Action.ADD_TO_WISHLIST,
         payload: movie

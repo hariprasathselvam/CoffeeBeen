@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,TextInput } from 'react-native'
+import React, { useState } from 'react'
 
 const HistoryIndex = () => {
   return (

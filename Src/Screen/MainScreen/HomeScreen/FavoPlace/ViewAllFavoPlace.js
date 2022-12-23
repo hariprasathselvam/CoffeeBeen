@@ -6,10 +6,10 @@ import { moderateScale, fontSizes} from '../../../../constants/appConstant';
 import { String } from '../../../../Style/Strings';
 import COLOURS from '../../../../Style/Colours';
 import { useNavigation } from '@react-navigation/native';
+import Lottie from 'lottie-react-native';
 
 import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../../../../redux/actions'
-import LikeButton from '../../../../Components/LikeButton';
+import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
 
 const ViewAllFavoPlace = (props) => {
 
@@ -17,50 +17,38 @@ const ViewAllFavoPlace = (props) => {
 
   const [liked, setLiked] = useState(false)
 
-  const { movieReducer, fetchMovies, addToWishList, removeFromWishlist } = props;
+  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props
 
-  const { movies, wishlist } = movieReducer;
+  const { Coffees, wishlist } = CoffeeReducer
+
+  const [letyet,setLetyet]=useState(false)
+
+  let arr = wishlist
+  let len = arr.length
+
+  console.log(len)
+
+  useEffect(()=>{
+      if (len==0){
+        setLetyet(false)
+      }
+      else{
+        setLetyet(true)
+      }
+  })
 
 
-  const onTapAddToWishlist = (movie) => {
-
-    addToWishList(movie)
-}
 
 const onTapRemoveFromWishlist = (movie) => {
     removeFromWishlist(movie)
 
 }
 
-
-const isExist = (movie) => {
-    
-    if(wishlist.filter(item => item.id === movie.id).length > 0){
-        return true
-    }
-
-    return false
-}
-
-useEffect(() => {
-  fetchMovies()
-}, []);
-
-// const Add = (Data) => {
-//   like_btn.play(1, 96)
-//   onTapAddToWishlist(Data)
-  
-// }
-
-// const Remove = (Data) => {
-//   like_btn.reset()
-//   onTapRemoveFromWishlist(Data)
-// }
-
   const Item = ({Data}) => (
     <View style={{flex: 1, marginBottom: '5%'}}>
-      <TouchableOpacity>
-        {/* onPress={() => navigation.navigate('DetialsScreenindex', Data)} */}
+      <TouchableOpacity
+      onPress={() => navigation.navigate('DetialsScreenindex', Data)}
+      >
         <View
           style={{
             height: 200,
@@ -76,7 +64,7 @@ useEffect(() => {
               borderTopLeftRadius: 10,
               resizeMode: 'cover',
             }}
-            source={Data.Picture}
+            source={{uri:Data.Picture}}
           />
           <View
             style={{
@@ -116,29 +104,16 @@ useEffect(() => {
                   {Data.Rating}
                 </Text>
               </View>
-              {/* <View style={{height:25,width:35,backgroundColor:COLOURS.LightGray,alignItems:"center",borderRadius:10,justifyContent:"center"}}>
-                <Text style={{color:COLOURS.Primary,}}>{Data.price}</Text>
-            </View> */}
               <View>
-                {isExist(Data) ? (
-                  <TouchableOpacity
-                    onPress={() => 
-                      onTapRemoveFromWishlist(Data)
-                    }>
-                    <Text>Remove</Text>
-                  </TouchableOpacity>
-                ) : (
-                  // onPress={() => onTapRemoveFromWishlist(Data)}
-                  <TouchableOpacity
-                    // onPress={() => onTapAddToWishlist(Data)}
-                    onPress={() => 
-                      onTapAddToWishlist(Data)
-                    }
-                  >
-                  <Text>Add</Text>
-                  </TouchableOpacity>
-                )}
-
+                <TouchableOpacity onPress={() => onTapRemoveFromWishlist(Data)}>
+                  <Image
+                    source={Images.heartfill}
+                    style={{
+                      height: moderateScale(18),
+                      width: moderateScale(18),
+                    }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -154,15 +129,15 @@ useEffect(() => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Image
-        source={Images.Back}
-        style={{
-          height: 22,
-          width: 22,
-          marginTop: '5%',
-          marginHorizontal: moderateScale(20),
-        }}
-      />
+        <Image
+          source={Images.Back}
+          style={{
+            height: 22,
+            width: 22,
+            marginTop: '5%',
+            marginHorizontal: moderateScale(20),
+          }}
+        />
       </TouchableOpacity>
 
       <View style={{marginTop: '5%', marginHorizontal: moderateScale(20)}}>
@@ -175,27 +150,67 @@ useEffect(() => {
           Favorite Place
         </Text>
       </View>
-      <View style={{flex: 1, width: '90%', alignSelf: 'center',marginTop:"5%"}}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={CoffeeShop}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      {letyet ? (
+        <View
+          style={{flex: 1, width: '90%', alignSelf: 'center', marginTop: '5%'}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={wishlist}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      ) : (
+        <View
+          style={{
+            flex:0.8,
+            width: '90%',
+            alignSelf: 'center',
+            justifyContent:"center"
+          }}>
+          <Lottie
+            source={require('../../../../Assets/Animation/empty-box.json')}
+            style={styles.Like}
+            autoPlay={true}
+          />
+          <Text style={styles.Text}>{`You haven't added any Coffees yet`}</Text>
+          <Text style={styles.SubText}>{`Click  ❤️  to add favorites`}</Text>
+        </View>
+      )}
     </View>
   );
 }
 
 const mapStateToProps = (state) => ({
-  movieReducer: state.movieReducer
+  CoffeeReducer: state.CoffeeReducer
 })
 
-export default connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist })(ViewAllFavoPlace)
+
+export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(ViewAllFavoPlace)
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOURS.Primary,
   },
+  Like: {
+    height: moderateScale(250),
+    width: moderateScale(250),
+    alignSelf:"center"
+  },
+  Text:{
+    alignSelf:"center",
+    fontSize:fontSizes.FONT17,
+    color:COLOURS.Black,
+    fontWeight:"400",
+    opacity:0.7
+
+  },
+  SubText:{
+    alignSelf:"center",
+    fontSize:fontSizes.FONT13,
+    color:COLOURS.LightGray,
+    opacity:0.5
+
+  }
 });

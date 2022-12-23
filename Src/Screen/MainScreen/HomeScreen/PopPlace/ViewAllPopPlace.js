@@ -7,7 +7,7 @@ import COLOURS from '../../../../Style/Colours';
 import { useNavigation } from '@react-navigation/native';
 
 import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../../../../redux/actions'
+import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
 import LikeButton from '../../../../Components/LikeButton';
 
 const ViewAllPopPlace = (props) => {
@@ -15,15 +15,16 @@ const ViewAllPopPlace = (props) => {
   const navigation =useNavigation()
 
   
-  const { movieReducer, fetchMovies, addToWishList, removeFromWishlist } = props;
+  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props;
 
-  const { movies, wishlist } = movieReducer;
+  const { Coffees, wishlist } = CoffeeReducer;
 
   useEffect(() => {
-    fetchMovies()
+    fetchCoffee()
   }, [])
 
   const onTapAddToWishlist = (movie) => {
+    console.log(movie);
 
     addToWishList(movie)
 }
@@ -94,9 +95,9 @@ const isExist = (movie) => {
         </View>
       </TouchableOpacity>
     </View>
-  );
+  )
 
-  const renderItem = ({item}) => <Item Data={item} />;
+  const renderItem = ({item}) => <Item Data={item} />
 
   return (
     <View style={styles.container}>
@@ -125,7 +126,7 @@ const isExist = (movie) => {
       <View style={{flex: 1, width: '90%', alignSelf: 'center'}}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={movies}
+          data={Coffees}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
@@ -136,10 +137,10 @@ const isExist = (movie) => {
 
 
 const mapStateToProps = (state) => ({
-  movieReducer: state.movieReducer
+  CoffeeReducer: state.CoffeeReducer
 })
 
-export default connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist })(ViewAllPopPlace)
+export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(ViewAllPopPlace)
 
 
 const styles = StyleSheet.create({

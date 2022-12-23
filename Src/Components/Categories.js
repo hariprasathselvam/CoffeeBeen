@@ -23,10 +23,11 @@ export default Categories =({image,head,subhead,Underline,onPress})=> {
 const styles = StyleSheet.create({
     Container:{
         flexDirection:"row",
+        alignItems:"center"
     },
     Circle:{
-        height:moderateScale(40),
-        width:moderateScale(40),
+        height:moderateScale(50),
+        width:moderateScale(50),
         borderWidth:0.5,
         borderRadius:50,
         justifyContent:"center",
@@ -39,12 +40,12 @@ const styles = StyleSheet.create({
 
     },
     CartTextContainer:{
-        marginLeft:"5%"
+        marginLeft:"5%",
     },
     CartHeadText:{
         fontSize:fontSizes.FONT17,
-        fontWeight:'bold',
-        color:COLOURS.LightGray,
+        fontWeight:'600',
+        color:COLOURS.Black,
     },
     CardSubHeadText:{
         fontSize:fontSizes.FONT13,
