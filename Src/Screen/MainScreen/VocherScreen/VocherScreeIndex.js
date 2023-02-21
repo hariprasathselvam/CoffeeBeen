@@ -7,7 +7,12 @@ import { useNavigation } from '@react-navigation/native'
 import Categories from '../../../Components/Categories'
 import Vo_Mi_Box from './Vo_Mi_Box'
 import Rectangular_Box from './Rectangular_Box'
-const VocherScreeIndex = () => {
+const VocherScreeIndex = ({route}) => {
+
+  const [index, setIndex] = useState(route.params.index)
+
+  useEffect(()=>{
+  },[index])
   return (
     <View style={styles.Container}>
       <View style={styles.Header}>

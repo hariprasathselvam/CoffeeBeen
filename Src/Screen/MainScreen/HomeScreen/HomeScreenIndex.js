@@ -12,8 +12,41 @@ import Myreward from './Myreward/Myreward'
 import FavoritePlace from './FavoPlace/FavoritePlace'
 import PopularPlace from './PopPlace/PopularPlace'
 import CoffeeScreenIndex from '../CoffeeScreen/CoffeeScreenIndex'
-export default function HomeScreenIndex({navigation}) {
+import { useEffect } from 'react'
+import * as Action from '../../../redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import Spinner from 'react-native-loading-spinner-overlay/lib'
+import { useFocusEffect } from '@react-navigation/native'
 
+export default function HomeScreenIndex({navigation,route}) {
+
+  const [loading,setLoding]=useState(false)
+
+  const [index,setIndex]=useState(route.params.index)
+
+  const {currentindex} = useSelector(state => state.CoffeeReducer);
+
+
+  useFocusEffect(
+    React.useCallback(()=>{
+    GetCoffeeFromApi()
+  },[]))
+
+  const fetchCoffee = () => Action.fetchCoffee();
+
+  const updateindex = (index) => Action.updateindex(index);
+
+
+  const Dispatch = useDispatch()
+
+  const GetCoffeeFromApi = async () => {
+    setLoding(true)
+    await Dispatch(fetchCoffee())
+    setLoding(false)
+
+  }
+  
   return (
     <View style={styles.MainContainer}>
       <View style={styles.Container}>
@@ -25,6 +58,7 @@ export default function HomeScreenIndex({navigation}) {
         <FavoritePlace/>
         <PopularPlace/>
       </ScrollView>
+      <Spinner visible={loading} color={'lightgreen'} />
     </View>
   )
 }

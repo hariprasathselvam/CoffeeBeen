@@ -8,10 +8,10 @@ import reducer from './reducers'
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['wishlist']
+    whitelist: ['wishlist','CoffeeReducer',]
 }
 
-
+    
 const rootReducer = combineReducers({
     CoffeeReducer: persistReducer(persistConfig, reducer)
 })

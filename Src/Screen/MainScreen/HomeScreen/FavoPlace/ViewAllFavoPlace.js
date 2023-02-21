@@ -8,18 +8,16 @@ import COLOURS from '../../../../Style/Colours';
 import { useNavigation } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 
-import { connect } from 'react-redux'
-import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
+import { connect,useDispatch,useSelector } from 'react-redux'
+import * as Action from '../../../../redux/actions'
 
 const ViewAllFavoPlace = (props) => {
 
   const navigation = useNavigation()
 
-  const [liked, setLiked] = useState(false)
+  const Dispatch = useDispatch()
 
-  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props
-
-  const { Coffees, wishlist } = CoffeeReducer
+  const {wishlist,Coffees} = useSelector((state) => state.CoffeeReducer)
 
   const [letyet,setLetyet]=useState(false)
 
@@ -27,6 +25,8 @@ const ViewAllFavoPlace = (props) => {
   let len = arr.length
 
   console.log(len)
+
+  const removeFromWishlist = (data) => Action.removeFromWishlist007(data);
 
   useEffect(()=>{
       if (len==0){
@@ -39,9 +39,8 @@ const ViewAllFavoPlace = (props) => {
 
 
 
-const onTapRemoveFromWishlist = (movie) => {
-    removeFromWishlist(movie)
-
+  const onTapRemoveFromWishlist = (movie) => {
+    Dispatch(removeFromWishlist(movie))
 }
 
   const Item = ({Data}) => (
@@ -181,12 +180,9 @@ const onTapRemoveFromWishlist = (movie) => {
   );
 }
 
-const mapStateToProps = (state) => ({
-  CoffeeReducer: state.CoffeeReducer
-})
 
 
-export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(ViewAllFavoPlace)
+export default ViewAllFavoPlace
 
 const styles = StyleSheet.create({
   container: {

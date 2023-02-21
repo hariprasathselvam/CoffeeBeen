@@ -5,41 +5,32 @@ import CoffeeShop from '../../../../Assets/StaticData/CoffeeShopsData';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CoffeeScreenIndex from '../../CoffeeScreen/CoffeeScreenIndex';
 
-import { connect } from 'react-redux'
-import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
-
+import { connect, useSelector } from 'react-redux'
+import { moderateScale } from '../../../../constants/appConstant';
 
 const  Pop_PlaceBox = (props) => {
 
   const navigation =useNavigation()
 
-  
-  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props
+  const {wishlist,Coffees} = useSelector((state) => state.CoffeeReducer)
 
-  const { Coffees, wishlist } = CoffeeReducer
+  const [loading,setLoding]=useState(false)
 
-  const [loading,setLoding]=useState(true)
-
-  useEffect(() => {
-    setLoding(true)
-    fetchCoffee()
-    setLoding(false)
-  }, []);
 
 
   const Item = ({Data,}) => (
     <View>
     <TouchableOpacity onPress={() => navigation.navigate('DetialsScreenindex', Data)} style={{}}>
     <View style={{flexDirection:"row"}}>
-          <Image style={{height:150,width:125,borderRadius:25}} source={{uri:Data.Picture}}/>
+          <Image style={{height:moderateScale(150),width:moderateScale(125),borderRadius:moderateScale(25)}} source={{uri:Data.Picture}}/>
       
-      <View style={{marginLeft:15,marginTop:15}}>
-        <Text style={{fontSize:22,color:"black"}}>{Data.name}</Text>
+      <View style={{marginLeft:moderateScale(15),marginTop:moderateScale(15)}}>
+        <Text style={{fontSize:moderateScale(22),color:"black"}}>{Data.name}</Text>
         <View style={{flexDirection:"row",top:'5%'}}>
-          <Image source={Images.rating} style={{height:30,width:80}}/>
-          <Text style={{fontSize:19,left:"50%",color:"gray"}}>{Data.Rating}</Text>
+          <Image source={Images.rating} style={{height:moderateScale(30),width:moderateScale(80)}}/>
+          <Text style={{fontSize:moderateScale(19),left:"50%",color:"gray"}}>{Data.Rating}</Text>
         </View>
-        <Text style={{top:"15%",fontSize:18,color:"gray"}}>{Data.location}</Text>
+        <Text style={{top:"15%",fontSize:moderateScale(18),color:"gray"}}>{Data.location}</Text>
       </View>
     </View>
     </TouchableOpacity>
@@ -69,10 +60,6 @@ const  Pop_PlaceBox = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
-  CoffeeReducer: state.CoffeeReducer
-})
-
-export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(Pop_PlaceBox)
+export default Pop_PlaceBox
 
 const styles = StyleSheet.create({})

@@ -6,7 +6,7 @@ import Categories from '../../../../Components/Categories'
 import {moderateScale, fontSizes} from '../../../../constants/appConstant'
 import {ScrollView} from 'react-native-virtualized-view'
 import BottamSheet from './BottamSheet'
-import RazorpayCheckout from 'react-native-razorpay';
+// import RazorpayCheckout from 'react-native-razorpay';
 export default function OrderIndex({route, navigation}) {
   const refRBSheet = useRef()
   
@@ -57,28 +57,28 @@ export default function OrderIndex({route, navigation}) {
   //   UIManager.setLayoutAnimationEnabledExperimental(true);
   // }
 
-  const makepayment = () => {
-    const RazorPay = totalPrice + 10 + 5 - 16
-    var options = {
-      description: 'Credits towards consultation',
-      image: 'https://i.imgur.com/3g7nmJC.png',
-      currency: 'INR',
-      key: 'rzp_test_gg7uD5c5ZXzXXe',
-      amount: RazorPay*100,
-      name: 'Coffee Been',
-      prefill: {
-        email: 'void@razorpay.com',
-        contact: '9191919191',
-        name: 'Razorpay Software'
-      },
-      theme: {color: COLOURS.LightGreen}
-    }
-    RazorpayCheckout.open(options).then((data) => {
-      alert(`Success: ${data.razorpay_payment_id}`)
-    }).catch((error) => {
-      alert(`Error: ${error.code} | ${error.description}`)
-    })
-  }
+  // const makepayment = () => {
+  //   const RazorPay = totalPrice + 10 + 5 - 16
+  //   var options = {
+  //     description: 'Credits towards consultation',
+  //     image: 'https://i.imgur.com/3g7nmJC.png',
+  //     currency: 'INR',
+  //     key: 'rzp_test_gg7uD5c5ZXzXXe',
+  //     amount: RazorPay*100,
+  //     name: 'Coffee Been',
+  //     prefill: {
+  //       email: 'void@razorpay.com',
+  //       contact: '9191919191',
+  //       name: 'Razorpay Software'
+  //     },
+  //     theme: {color: COLOURS.LightGreen}
+  //   }
+  //   RazorpayCheckout.open(options).then((data) => {
+  //     alert(`Success: ${data.razorpay_payment_id}`)
+  //   }).catch((error) => {
+  //     alert(`Error: ${error.code} | ${error.description}`)
+  //   })
+  // }
 
   const onSubtract = (item, index) => {
     const data = [...product];
@@ -247,7 +247,7 @@ export default function OrderIndex({route, navigation}) {
       <BottamSheet
         refRBSheet={refRBSheet}
         finalPayment={totalPrice}
-        onSwipeSuccess={makepayment}
+        onSwipeSuccess={()=>alert("make Payment")}
       />
     </View>
   );

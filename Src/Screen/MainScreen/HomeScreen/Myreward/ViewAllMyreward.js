@@ -39,8 +39,8 @@ export default function ViewAllMyreward({navigation}) {
       <Image
         source={Images.Back}
         style={{
-          height: 22,
-          width: 22,
+          height: moderateScale(22),
+          width: moderateScale(22),
           marginTop: '5%',
           marginHorizontal: moderateScale(20),
         }}

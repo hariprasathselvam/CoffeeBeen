@@ -8,9 +8,15 @@ import COLOURS from '../../../Style/Colours';
 import {AuthContext} from '../../../Navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import PrivacyAndPolicyIndex from './PrivacyAndPolicy/PrivacyAndPolicyIndex';
+import { useFocusEffect } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 export default function ProfileScreenIndex({navigation, route}) {
+  
+  const [index, setIndex] = useState(route.params.index)
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
+  const [loading,setLoding]=useState(false)
+
 
   const getUser = async () => {
     const currentUser = await firestore()
@@ -25,9 +31,17 @@ export default function ProfileScreenIndex({navigation, route}) {
       });
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getDataFromFireBase();
+    }, [index]),
+  );
+
+  const getDataFromFireBase = async () => {
+    setLoding(true);
+    await getUser();
+    setLoding(false);
+  };
 
   return (
     <View style={styles.Container}>
@@ -98,6 +112,7 @@ export default function ProfileScreenIndex({navigation, route}) {
           />
         </View>
       </ScrollView>
+      <Spinner visible={loading} color={'lightgreen'} />
     </View>
   );
 }

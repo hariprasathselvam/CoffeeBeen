@@ -15,7 +15,7 @@ export default function PopularPlace(Props) {
            <View style={{flexDirection:"row",justifyContent:"space-between",}}>
                 <Text style={{fontSize:fontSizes.FONT20,color:COLOURS.Black}}>Popular Place</Text>
                 <TouchableOpacity onPress={() => navigation.navigate("ViewAllPopPlace")}>
-                    <Text style={{color:COLOURS.LightGreen}}>View All</Text>
+                    <Text style={{color:COLOURS.LightGreen,fontSize:moderateScale(14)}}>View All</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.Pop_PlaceBox}>

@@ -14,7 +14,13 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {Formik} from 'formik'
 import * as yup from 'yup';
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import * as Action from '../../redux/actions'
+
 const LoginScreen = ({navigation}) => {
+
+  const updateindex = (index) => Action.updateindex(index);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -45,6 +51,12 @@ const LoginScreen = ({navigation}) => {
     console.log(values.email);
     login(values.email,values.password)
   }
+
+  const Dispatch = useDispatch()
+
+  useEffect(()=>{
+    Dispatch(updateindex(0))
+  })
 
   return (
     <Formik

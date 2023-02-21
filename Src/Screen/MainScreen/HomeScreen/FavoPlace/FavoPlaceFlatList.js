@@ -7,17 +7,14 @@ import COLOURS from '../../../../Style/Colours'
 import { useNavigation } from '@react-navigation/native'
 import Lottie from 'lottie-react-native';
 
-import { connect } from 'react-redux'
-import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
+import { connect, useSelector } from 'react-redux'
 
 const FavoPlaceFlatList = (props) => {
 
   const navigation =useNavigation();
 
     
-  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props
-
-  const { Coffees, wishlist } = CoffeeReducer
+  const {wishlist,Coffees} = useSelector((state) => state.CoffeeReducer)
 
   const [letyet,setLetyet]=useState(false)
 
@@ -93,11 +90,8 @@ const FavoPlaceFlatList = (props) => {
   );
 }
 
-const mapStateToProps = (state) => ({
-  CoffeeReducer: state.CoffeeReducer
-})
 
-export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(FavoPlaceFlatList)
+export default FavoPlaceFlatList
 
 const styles = StyleSheet.create({
     container: {

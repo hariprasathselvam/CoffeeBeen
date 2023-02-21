@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         height:moderateScale(50),
         width:moderateScale(50),
         borderWidth:0.5,
-        borderRadius:50,
+        borderRadius:moderateScale(50),
         justifyContent:"center",
     },
     CardImage:{
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     Underline:{
         marginTop:"5%",
-        height:1,
+        height:moderateScale(1),
         width:"100%",
         backgroundColor:COLOURS.LightGray,
         opacity:0.4,

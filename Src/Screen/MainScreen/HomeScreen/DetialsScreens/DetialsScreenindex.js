@@ -9,28 +9,31 @@ import {ScrollView} from 'react-native-virtualized-view';
 import LikeButton from '../../../../Components/LikeButton';
 
 import { connect, useSelector } from 'react-redux'
-import {addToWishList, removeFromWishlist} from '../../../../redux/actions'
+import * as Action from '../../../../redux/actions'
+import { useDispatch } from "react-redux";
 
 
 const DetialsScreenindex = ({navigation, route,}) => {
 
-  const Data = route.params
-  // console.log(Data);
+  useEffect(()=>{
+  })
 
-  // const {addToWishList, removeFromWishlist } = route.params
-  
-  // const {wishlist} = CoffeeReducer
+  const Data = route.params
+
+  const Dispatch = useDispatch();
+
+  const addToWishList = (data) => Action.addToWishList007(data);
+
+  const removeFromWishlist = (data) => Action.removeFromWishlist007(data);
+
   const {wishlist} = useSelector((state) => state.CoffeeReducer)
 
   const onTapAddToWishlist = (movie) => {
-    // console.log("========.......................>",movie)
-    addToWishList(movie)
-    alert("Hari")
+    Dispatch(addToWishList(movie));
 }
 
 const onTapRemoveFromWishlist = (movie) => {
-  console.log("========.......................>",movie)
-    removeFromWishlist(movie)
+    Dispatch(removeFromWishlist(movie))
 
 }
 
@@ -99,8 +102,8 @@ const isExist = (movie) => {
       <View style={{flexDirection: 'row'}}>
         <View>
           <Image
-            source={Data.reviewPic}
-            style={{height: 50, width: 50, borderRadius: 50}}
+            source={{uri:Data.reviewPic}}
+            style={{height: moderateScale(50), width: moderateScale(50), borderRadius: moderateScale(50),resizeMode:"contain"}}
           />
         </View>
 
@@ -109,8 +112,8 @@ const isExist = (movie) => {
             style={{
               flexDirection: 'row',
             }}>
-            <Text>{Data.username}</Text>
-            <Text style={{left: 125}}>{Data.date}</Text>
+            <Text style={styles.DescriptionText}>{Data.username}</Text>
+            <Text style={[styles.DescriptionText,{left: 125}]}>{Data.date}</Text>
           </View>
           <View
             style={{
@@ -118,7 +121,7 @@ const isExist = (movie) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text >Soft Suave</Text>
+            <Text style={styles.DescriptionText}>Soft Suave</Text>
             <Image
               source={Images.rating}
               style={{height: 40, width: 60, left: 100}}
@@ -142,6 +145,9 @@ const isExist = (movie) => {
             more ? <Text style={styles.ReadMore}>Read Less</Text> : <Text style={styles.ReadMore}>Read More</Text> 
           }
         </TouchableOpacity>
+        <View>
+          <Image source={Data.reviewPic}/>
+        </View>
     </View>
   );
 
@@ -268,7 +274,8 @@ const isExist = (movie) => {
               marginHorizontal: moderateScale(30),
               marginTop: '1%',
               opacity: 0.7,
-              textAlign: 'justify',
+              textAlign: "left",
+              color:COLOURS.Black
             }}>
             {Data.Discription}
           </Text>
@@ -454,6 +461,10 @@ const styles = StyleSheet.create({
   ReadMore1:{
     color:"skyblue",
    marginHorizontal:moderateScale(30)
+  },
+  DescriptionText:{
+    color:COLOURS.Black,
+    fontSize:moderateScale(13)
   }
 });
 

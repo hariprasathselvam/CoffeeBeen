@@ -26,16 +26,17 @@ const BottamNavigationTap = () => {
         
         }}
         >
-            <Tab.Screen name='Home' component={HomeScreenIndex}   options={{
+            <Tab.Screen name='Home' component={HomeScreenIndex}  initialParams={{index:1}} 
+            options={{
                 tabBarIcon:({
                     focused,
                     color,
-                    size
+                    size,
                 })=> <Image source={Images.home}
                 style={{ tintColor:focused?COLOURS.Secondary:COLOURS.Black,height:moderateScale(25), width:moderateScale(25) ,}}
                 />
-            }} />
-            <Tab.Screen name='coffee' component={CoffeeScreenIndex}
+            }}  />
+            <Tab.Screen name='coffee' component={CoffeeScreenIndex} initialParams={{index:2}}
             options={{
                 tabBarIcon:({
                     focused,
@@ -45,7 +46,8 @@ const BottamNavigationTap = () => {
                 style={{ tintColor:focused?COLOURS.Secondary:COLOURS.Black,height:moderateScale(35), width:moderateScale(35) ,}}
                 />
             }} />
-            <Tab.Screen name='voucher' component={VocherScreeIndex} options={{
+            <Tab.Screen name='voucher' component={VocherScreeIndex} initialParams={{index:3}}
+            options={{
                 tabBarIcon:(
                     {
                         focused,
@@ -56,7 +58,8 @@ const BottamNavigationTap = () => {
                 style={{ tintColor:focused?COLOURS.Secondary:COLOURS.Black,height:moderateScale(25), width:moderateScale(25) ,}}
                 />
             }} />
-            <Tab.Screen name='user' component={ProfileScreenIndex} options={{
+            <Tab.Screen name='user' component={ProfileScreenIndex} initialParams={{index:4}}
+            options={{
                 tabBarIcon:(
                     {
                         focused,

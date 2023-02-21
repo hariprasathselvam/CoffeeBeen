@@ -6,31 +6,28 @@ import {moderateScale, fontSizes} from '../../../../constants/appConstant';
 import COLOURS from '../../../../Style/Colours';
 import { useNavigation } from '@react-navigation/native';
 
-import { connect } from 'react-redux'
-import { fetchCoffee, addToWishList, removeFromWishlist } from '../../../../redux/actions'
+import { connect, useDispatch,useSelector } from 'react-redux'
 import LikeButton from '../../../../Components/LikeButton';
+import * as Action from '../../../../redux/actions'
 
-const ViewAllPopPlace = (props) => {
+export default ViewAllPopPlace = (props) => {
 
   const navigation =useNavigation()
+  const Dispatch = useDispatch()
 
-  
-  const { CoffeeReducer, fetchCoffee, addToWishList, removeFromWishlist } = props;
+  const addToWishList = (data) => Action.addToWishList007(data);
 
-  const { Coffees, wishlist } = CoffeeReducer;
+  const removeFromWishlist = (data) => Action.removeFromWishlist007(data);
 
-  useEffect(() => {
-    fetchCoffee()
-  }, [])
+  const {wishlist,Coffees} = useSelector((state) => state.CoffeeReducer)
 
   const onTapAddToWishlist = (movie) => {
-    console.log(movie);
-
-    addToWishList(movie)
+    Dispatch(addToWishList(movie));
 }
 
 const onTapRemoveFromWishlist = (movie) => {
-    removeFromWishlist(movie)
+    Dispatch(removeFromWishlist(movie))
+
 
 }
 
@@ -47,16 +44,16 @@ const isExist = (movie) => {
 
   const Item = ({Data}) => (
     <View
-      style={{marginTop: '5%', padding: moderateScale(5), borderRadius: 20}}>
+      style={{marginTop: '5%', padding: moderateScale(5), borderRadius: moderateScale(20)}}>
       <TouchableOpacity
         onPress={() => navigation.navigate('DetialsScreenindex', Data)}>
         <View style={{flexDirection: 'row'}}>
           <Image
-            style={{height: 150, width: 125, borderRadius: 25}}
+            style={{height: moderateScale(150), width: moderateScale(125), borderRadius: moderateScale(25)}}
             source={{uri: Data.Picture}}
           />
 
-          <View style={{left: '10%'}}>
+          <View style={{left: '15%'}}>
             <View style={{alignSelf: 'flex-end'}}>
               {isExist(Data) ? (
                 <TouchableOpacity onPress={() => onTapRemoveFromWishlist(Data)}>
@@ -73,7 +70,7 @@ const isExist = (movie) => {
             </View>
             <Text
               style={{
-                fontSize: 20,
+                fontSize: moderateScale(20),
                 color: 'black',
                 fontWeight: '500',
                 bottom: '5%',
@@ -81,13 +78,13 @@ const isExist = (movie) => {
               {Data.name}
             </Text>
             <View style={{flexDirection: 'row'}}>
-              <Image source={Images.rating} style={{height: 30, width: 80}} />
-              <Text style={{fontSize: 19, left: '50%', color: 'gray'}}>
+              <Image source={Images.rating} style={{height: moderateScale(30), width: moderateScale(80)}} />
+              <Text style={{fontSize: moderateScale(19), left: '50%', color: 'gray'}}>
                 {Data.Rating}
               </Text>
             </View>
             <View style={{top: '5%'}}>
-              <Text style={{fontSize: 16, color: 'gray', opacity: 0.5}}>
+              <Text style={{fontSize: moderateScale(16), color: 'gray', opacity: 0.5}}>
                 {Data.location}
               </Text>
             </View>
@@ -105,8 +102,8 @@ const isExist = (movie) => {
       <Image
         source={Images.Back}
         style={{
-          height: 22,
-          width: 22,
+          height: moderateScale(22),
+          width: moderateScale(22),
           marginTop: '5%',
           marginHorizontal: moderateScale(20),
         }}
@@ -116,7 +113,7 @@ const isExist = (movie) => {
       <View style={{marginTop: '5%', marginHorizontal: moderateScale(20)}}>
         <Text
           style={{
-            fontSize: fontSizes.FONT20,
+            fontSize: moderateScale(20),
             color: COLOURS.Secondary,
             fontFamily: 'Merienda-Bold',
             
@@ -135,13 +132,6 @@ const isExist = (movie) => {
     </View>
   );
 }
-
-
-const mapStateToProps = (state) => ({
-  CoffeeReducer: state.CoffeeReducer
-})
-
-export default connect(mapStateToProps, { fetchCoffee, addToWishList, removeFromWishlist })(ViewAllPopPlace)
 
 
 const styles = StyleSheet.create({

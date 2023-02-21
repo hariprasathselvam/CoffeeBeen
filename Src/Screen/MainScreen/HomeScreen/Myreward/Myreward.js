@@ -13,14 +13,14 @@ export default function Myreward() {
   return (
     <View>
         <View style={styles.Myreward}>
-            <View style={{flexDirection:"row",padding:5,justifyContent:"space-between",paddingHorizontal:15}}>
+            <View style={{flexDirection:"row",padding:moderateScale(5),justifyContent:"space-between",paddingHorizontal:moderateScale(15)}}>
                 <Text style={{fontSize:fontSizes.FONT20,color:COLOURS.Black}}>Myreward</Text>
                 <TouchableOpacity onPress={() => navigation.navigate("ViewAllMyreward")}>
                     <Text style={{color:COLOURS.LightGreen}}>View All</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={{borderWidth:0.5,borderRadius:15,marginHorizontal:20,flexDirection:"row",padding:15,marginTop:"5%",backgroundColor:COLOURS.LightWhite}}>
+            <View style={{borderWidth:0.5,borderRadius:moderateScale(15),marginHorizontal:moderateScale(20),flexDirection:"row",padding:moderateScale(15),marginTop:"5%",backgroundColor:COLOURS.LightWhite}}>
                 <Categories
                 head={"Free 1 Coffee"}
                 subhead={"Buy 10 Coffee and get 1 coffee for free"}
